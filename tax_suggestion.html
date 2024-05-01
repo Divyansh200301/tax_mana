@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Suggestion</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+      body {
+            background-image: url('7054182.jpg'); /* Background image URL */
+            background-size: cover;
+            background-position: center;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2 class="mb-4">Tax Suggestion</h2>
+            <form id="taxSuggestionForm">
+                <div class="form-group">
+                    <label for="job">Job:</label>
+                    <input type="text" class="form-control" id="job" required>
+                </div>
+                <div class="form-group">
+                    <label for="annualIncome">Annual Income:</label>
+                    <input type="number" class="form-control" id="annualIncome" required>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" class="form-control" id="age" required>
+                </div>
+                <div class="form-group">
+                    <label for="taxSavingOptions">Tax-Saving Options:</label><br>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="taxSavingInvestments">
+                        <label class="form-check-label" for="taxSavingInvestments">Investments in Tax-Saving Instruments</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="investForTaxSaving">
+                        <label class="form-check-label" for="investForTaxSaving">Invest for Tax Saving</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="medicalInsurance">
+                        <label class="form-check-label" for="medicalInsurance">Medical Insurance Premium</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="homeLoan">
+                        <label class="form-check-label" for="homeLoan">Home Loan Interest</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="educationalLoan">
+                        <label class="form-check-label" for="educationalLoan">Interest on Educational Loan</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="dependents">
+                        <label class="form-check-label" for="dependents">Dependents (Claim Exemption)</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="retirementSavings">
+                        <label class="form-check-label" for="retirementSavings">Contributions to Retirement Savings</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="disability">
+                        <label class="form-check-label" for="disability">Disability Deduction</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="npsContribution">
+                        <label class="form-check-label" for="npsContribution">NPS Contribution</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Get Tax Suggestions</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        $(document).ready(function () {
+            $('#taxSuggestionForm').submit(function (event) {
+                event.preventDefault();
+
+                // Get form values
+                const job = $('#job').val();
+                const annualIncome = parseFloat($('#annualIncome').val());
+                const age = parseInt($('#age').val());
+                const taxSavingInvestments = $('#taxSavingInvestments').prop('checked');
+                const investForTaxSaving = $('#investForTaxSaving').prop('checked');
+                const medicalInsurance = $('#medicalInsurance').prop('checked');
+                const homeLoan = $('#homeLoan').prop('checked');
+                const educationalLoan = $('#educationalLoan').prop('checked');
+                const dependents = $('#dependents').prop('checked');
+                const retirementSavings = $('#retirementSavings').prop('checked');
+                const disability = $('#disability').prop('checked');
+                const npsContribution = $('#npsContribution').prop('checked');
+
+                // Calculate which tax regime is more beneficial
+                let suggestion = '';
+                let oldRegimeBeneficial = true; // Assume old regime is beneficial by default
+
+                // Example logic to determine which regime is more beneficial based on user input
+                if (annualIncome > 1000000 || age > 60) {
+                    oldRegimeBeneficial = false; // New regime might be more beneficial for higher incomes or senior citizens
+                }
+
+                // Check for specific tax-saving scenarios that favor the new regime
+                if (homeLoan && educationalLoan && dependents) {
+                    oldRegimeBeneficial = false; // New regime may offer more benefits with these deductions
+                }
+
+                // Generate suggestion based on the calculation
+                if (oldRegimeBeneficial) {
+                    suggestion = 'Based on your input, the Old Tax Regime may be more beneficial.';
+                } else {
+                    suggestion = 'Based on your input, the New Tax Regime may be more beneficial.';
+                }
+
+                // Display the suggestion
+                alert(suggestion);
+            });
+        });
+    </script>
+</body>
+
+</html>

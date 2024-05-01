@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-image: url('10191042.jpg'); /* Background image URL */
+            background-size: cover;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-container {
+            max-width: 350px; /* Reduced maximum width */
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            padding: 20px; /* Reduced padding */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+        }
+
+        .btn-primary {
+            margin-top: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2 class="mb-4">Tax Management</h2>
+
+            <!-- Accordion for Tax Saving Details -->
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="savingHeading">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#savingCollapse" aria-expanded="true" aria-controls="savingCollapse">
+                                Tax Saving Details
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="savingCollapse" class="collapse show" aria-labelledby="savingHeading" data-parent="#accordion">
+                        <div class="card-body">
+                            <form id="taxSavingForm">
+                                <div class="form-group">
+                                    <label for="standardDeduction">Standard Deduction:</label>
+                                    <input type="number" class="form-control" id="standardDeduction" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="section80C">Section 80C Deduction:</label>
+                                    <input type="number" class="form-control" id="section80C" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="section80D">Section 80D Deduction:</label>
+                                    <input type="number" class="form-control" id="section80D" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="otherIncome">Other Income:</label>
+                                    <input type="number" class="form-control" id="otherIncome" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Tax Saving Details</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion for Tax Calculation -->
+                <div class="card">
+                    <div class="card-header" id="calculationHeading">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#calculationCollapse" aria-expanded="false" aria-controls="calculationCollapse">
+                                Tax Calculation
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="calculationCollapse" class="collapse" aria-labelledby="calculationHeading" data-parent="#accordion">
+                        <div class="card-body">
+                            <form id="taxCalcForm">
+                                <div class="form-group">
+                                    <label for="totalIncome">Total Income:</label>
+                                    <input type="number" class="form-control" id="totalIncome" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deductions">Total Deductions:</label>
+                                    <input type="number" class="form-control" id="deductions" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tax Regime:</label><br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="taxRegime" id="oldRegime" value="old" checked>
+                                        <label class="form-check-label" for="oldRegime">Old Regime</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="taxRegime" id="newRegime" value="new">
+                                        <label class="form-check-label" for="newRegime">New Regime</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Calculate Tax</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        $(document).ready(function () {
+            // Submit tax saving details form
+            $('#taxSavingForm').submit(function (event) {
+                event.preventDefault();
+                // Handle tax saving details submission
+                alert('Tax saving details submitted successfully!');
+            });
+
+            // Submit tax calculation form
+            $('#taxCalcForm').submit(function (event) {
+                event.preventDefault();
+                // Get form data
+                var totalIncome = parseFloat($('#totalIncome').val());
+                var deductions = parseFloat($('#deductions').val());
+                var taxRegime = $('input[name="taxRegime"]:checked').val();
+
+                // Calculate taxable income
+                var taxableIncome = totalIncome - deductions;
+
+                // Calculate tax based on the selected regime
+                var taxAmount = 0;
+                if (taxRegime === 'old') {
+                    // Example logic for old regime tax calculation
+                    if (taxableIncome <= 250000) {
+                        taxAmount = 0;
+                    } else if (taxableIncome <= 500000) {
+                        taxAmount = 0.05 * (taxableIncome - 250000);
+                    } else if (taxableIncome <= 1000000) {
+                        taxAmount = 12500 + 0.2 * (taxableIncome - 500000);
+                    } else {
+                        taxAmount = 112500 + 0.3 * (taxableIncome - 1000000);
+                    }
+                } else {
+                    // Example logic for new regime tax calculation
+                    if (taxableIncome <= 250000) {
+                        taxAmount = 0;
+                    } else if (taxableIncome <= 500000) {
+                        taxAmount = taxableIncome * 0.05;
+                    } else if (taxableIncome <= 750000) {
+                        taxAmount = taxableIncome * 0.1;
+                    } else if (taxableIncome <= 1000000) {
+                        taxAmount = taxableIncome * 0.15;
+                    } else if (taxableIncome <= 1250000) {
+                        taxAmount = taxableIncome * 0.2;
+                    } else if (taxableIncome <= 1500000) {
+                        taxAmount = taxableIncome * 0.25;
+                    } else {
+                        taxAmount = taxableIncome * 0.3;
+                    }
+                }
+
+                // Display tax amount
+                alert('Tax Calculation Result:\nTax Amount: ₹' + taxAmount.toFixed(2));
+            });
+        });
+    </script>
+</body>
+
+</html>
